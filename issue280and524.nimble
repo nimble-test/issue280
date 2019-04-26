@@ -13,7 +13,8 @@ requires "nim >= 0.18.0"
 task setup, "Download and generate":
   exec "nimble install https://github.com/nimble-test/issue280and524.git?subdir=generator -y"
   withDir thisDir():
-    exec "generator"
+    let cmd = when defined(windows): "cmd /c " else: ""
+    exec cmd & "generator"
     doAssert staticRead(thisDir() & "/hello.txt") == "hello!"
 
 before install:
