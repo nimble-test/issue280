@@ -10,8 +10,15 @@ srcDir        = "src"
 
 requires "nim >= 0.18.0"
 
+import strutils
+
 task setup, "Download and generate":
-  exec "nimble install https://github.com/nimble-test/issue280and524.git?subdir=generator -y"
+  let
+    dirSep = when defined(windows): "\\" else: "/"
+    path =
+      if selfExe().len == 0: ""
+      else: selfExe().rsplit(dirSep, maxsplit = 1)[0] & dirSep
+  exec path & "nimble install https://github.com/nimble-test/issue280and524.git?subdir=generator -y"
   withDir thisDir():
     let cmd = when defined(windows): "cmd /c " else: ""
     exec cmd & "generator"
