@@ -12,7 +12,8 @@ requires "nim >= 0.18.0"
 
 task setup, "Download and generate":
   let
-    nimble = getEnv("NIMBLE_TEST_BINARY_PATH", "nimble")
+    nimble = getEnv("NIMBLE_TEST_BINARY_PATH")
+  doAssert nimble.len != 0, "NIMBLE_TEST_BINARY_PATH not set"
   exec nimble & " install https://github.com/nimble-test/issue280and524.git?subdir=generator -y"
   withDir thisDir():
     let cmd = when defined(windows): "cmd /c " else: ""
